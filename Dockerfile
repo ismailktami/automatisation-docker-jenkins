@@ -1,37 +1,23 @@
-FROM ubuntu
+FROM python:3.8
 
-RUN apt-get update -y
-RUN apt-get install -y --no-install-recommends firefox
-RUN apt-get install -y --no-install-recommends python3
-RUN apt-get install -y --no-install-recommends build-essential python3-dev
-RUN apt-get install -y --no-install-recommends python3-setuptools
-RUN apt-get install -y --no-install-recommends python3-pip
-RUN apt-get install -y --no-install-recommends wget
-RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+# install google chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+RUN apt-get -y update
+RUN apt-get install -y google-chrome-stable
 
-RUN python3 --version
+# install chromedriver
+RUN apt-get install -yqq unzip
+RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
-ARG GECKODRIVER_VERSION=v0.30.0
-RUN apt-get install ca-certificates \
-  && wget --no-verbose --no-check-certificate -O /tmp/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz \
-  && rm -rf /opt/geckodriver \
-  && tar -C /opt -zxf /tmp/geckodriver.tar.gz \
-  && rm /tmp/geckodriver.tar.gz \
-  && mv /opt/geckodriver /opt/geckodriver-$GECKODRIVER_VERSION \
-  && chmod 755 /opt/geckodriver-$GECKODRIVER_VERSION \
-  && ln -fs /opt/geckodriver-$GECKODRIVER_VERSION /usr/bin/geckodriver
+RUN chmod 777 /usr/local/bin/chromedriver
 
-RUN python3 -m pip install psutil
-RUN python3 -m pip install robotframework
-RUN python3 -m pip install robotframework-distbot
-RUN python3 -m pip install robotframework-seleniumlibrary
-RUN python3 -m pip install robotframework-databaselibrary
-RUN python3 -m pip install PyMySQL
-RUN python3 -m pip install pymssql
-RUN python3 -m pip install postgres
+RUN python3 -m pip install --upgrade pip
 
-RUN apt-get remove -y build-essential python3-dev python3-setuptools python3-pip wget
-RUN rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-
-WORKDIR /tests
+COPY . /app
+WORKDIR /app
 ENTRYPOINT ["python3", "-m", "distbot"]
+
+CMD [ "robot", "Suites/*.robot"]
+
