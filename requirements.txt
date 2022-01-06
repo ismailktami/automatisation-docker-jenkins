@@ -1,0 +1,16 @@
+robotframework==3.2.2
+robotframework-appiumlibrary==1.6.1
+robotframework-csvlib==1.0.2
+robotframework-excellib==2.0.1
+robotframework-jsonlibrary==0.3.1
+robotframework-pythonlibcore==2.1.0
+robotframework-requests==0.9.1
+robotframework-seleniumlibrary==4.5.0
+robotframework-pdf2textlibrary==1.0.1
+selenium==3.141.0
+requests==2.25.1
+urllib3==1.26.3
+pymongo==3.11.3
+dnspython==1.16.0
+utils==1.0.1
+coloredlogs==15.0.1
