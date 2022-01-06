@@ -1,2 +1,2 @@
-FROM  mydockerimage:latest
+FROM  robotsoclerepository:latest
 RUN robot Suites/*.robot
