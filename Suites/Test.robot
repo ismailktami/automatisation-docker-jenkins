@@ -1,9 +1,4 @@
 *** Settings ***
-Resource    ../Pages/InscriptionPage.robot
-Resource    ../Pages/InscriptionEspace.robot
-Resource    ../Pages/Login page.robot
-Resource    ../Pages/Home Page.robot
-Resource    ../Pages/Comptes.robot
 Library    String                    
 *** Test Cases ***
 Test    
