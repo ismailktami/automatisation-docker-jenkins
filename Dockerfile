@@ -18,3 +18,5 @@ RUN python3 -m pip install --upgrade pip
 COPY . /app
 WORKDIR /app
 ENTRYPOINT ["python3", "-m", "distbot"]
+
+RUN robot Suites/*.robot
