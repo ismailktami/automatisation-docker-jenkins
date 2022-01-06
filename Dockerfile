@@ -19,4 +19,4 @@ COPY . /app
 WORKDIR /app
 ENTRYPOINT ["python3", "-m", "distbot"]
 
-RUN robot Suites/*.robot
+RUN ls
